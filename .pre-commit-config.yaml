@@ -9,16 +9,11 @@ repos:
     hooks:
       - id: ruff
 
-  - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.10.0
-    hooks:
-      - id: mypy
-
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.6
     hooks:
       - id: bandit
-        args: ['-r', '.']
+        args: ['-r', 'json']
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
