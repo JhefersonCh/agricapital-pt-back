@@ -1,0 +1,68 @@
+# ───────────────
+# Python general
+# ───────────────
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales
+.venv/
+venv/
+
+agri-venv/
+ENV/
+env/
+*.env
+
+# Configuración de entorno (variables secretas)
+*.env
+.env.*
+
+# Archivos de log y temporales
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Compilación (Cython, wheels)
+*.so
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Cache y coverage
+.cache/
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# IDEs y editores
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Jupyter notebooks
+.ipynb_checkpoints/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Uvicorn reload
+**/__pycache__/
+**/*.py[cod]
+
+# Docker (si usas)
+docker-compose.override.yml
+
+# Base de datos temporal (SQLite por ejemplo)
+*.db
+*.sqlite3
+
+# Pydantic/Starlette cache (si se diera el caso)
+*.msgpack
