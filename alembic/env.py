@@ -12,6 +12,9 @@ from sqlmodel import SQLModel
 from app.shared.entities.requestEntity import Request
 from app.shared.entities.credit_type_enity import CreditType
 from app.shared.entities.request_status_entity import RequestStatus
+from app.shared.entities.client_profile_entity import ClientProfile
+from app.shared.entities.notifications_user_entity import NotificationsUser
+from app.shared.entities.notification_entity import Notification
 
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 if project_root not in sys.path:

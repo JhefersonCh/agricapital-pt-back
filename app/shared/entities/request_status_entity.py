@@ -1,8 +1,8 @@
 # ruff: noqa: F401
+# flake8: noqa: F821
 from typing import List
 from datetime import datetime
 from uuid import UUID, uuid4
-from app.shared.entities.requestEntity import Request
 from sqlmodel import Field, Relationship, SQLModel
 
 

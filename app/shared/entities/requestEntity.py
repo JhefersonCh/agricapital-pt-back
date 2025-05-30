@@ -1,7 +1,9 @@
 from datetime import datetime
 from typing import Optional
 from uuid import UUID, uuid4
-from sqlmodel import Field, Relationship, SQLModel
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlmodel import Column, Field, Relationship, SQLModel
+from app.shared.entities.client_profile_entity import ClientProfile
 from app.shared.entities.request_status_entity import RequestStatus
 from app.shared.entities.credit_type_enity import CreditType
 
@@ -10,6 +12,7 @@ class RequestBase(SQLModel):
     client_id: UUID = Field(
         nullable=False,
         index=True,
+        foreign_key="client_profiles.user_id",
         description="ID del cliente que realiza la solicitud.",
     )
     requested_amount: float = Field(
@@ -64,7 +67,22 @@ class Request(RequestBase, table=True):
         default=None, max_length=500, description="Razón si la solicitud fue rechazada."
     )
     risk_score: Optional[float] = Field(
-        default=None, ge=0, le=1, description="Puntuación de riesgo del cliente (0-1)."
+        default=None,
+        ge=0,
+        le=1000,
+        description="Puntuación de riesgo del cliente (0-1000).",
     )
+    risk_assessment_details: Optional[dict] = Field(
+        default=None, sa_column=Column(JSONB)
+    )
+    warning_flags: Optional[list[str]] = Field(default=None, sa_column=Column(JSONB))
     credit_type: Optional[CreditType] = Relationship(back_populates="requests")
+    client_profile: Optional[ClientProfile] = Relationship(back_populates="requests")
+    purpose_description: Optional[str] = Field(default=None, max_length=1000)
+    applicant_contribution_amount: Optional[float] = Field(default=0.0, ge=0)
+    collateral_offered_description: Optional[str] = Field(default=None, max_length=1000)
+    collateral_value: Optional[float] = Field(default=None, ge=0)
+    number_of_dependents: Optional[int] = Field(default=None, ge=0)
+    other_income_sources: Optional[float] = Field(default=None, ge=0)
+    previous_defaults: Optional[int] = Field(default=None, ge=0)
     status: Optional[RequestStatus] = Relationship(back_populates="requests")
