@@ -348,14 +348,14 @@ class TemplateService:
         approved_amount: Optional[float] = None,
     ) -> str:
         """Template para solicitud aprobada"""
-        approved_amount = self._format_currency(approved_amount or 0)
+        approved_amount_to_email = self._format_currency(approved_amount or 0)
         date = self._format_date(datetime.now())
         interest_rate = (
             f"{request.annual_interest_rate:.1f}%"
             if request.annual_interest_rate
             else "N/A"
         )
-
+        print("----------------------------", approved_amount_to_email)
         if approved_amount and request.annual_interest_rate and request.term_months:
             monthly_rate = request.annual_interest_rate / 100 / 12
             monthly_payment = (
@@ -407,7 +407,7 @@ class TemplateService:
                             </div>
                             <div class="detail-item">
                                 <div class="detail-label">Monto Aprobado</div>
-                                <div class="detail-value highlight">{approved_amount}</div>
+                                <div class="detail-value highlight">{approved_amount_to_email}</div>
                             </div>
                             <div class="detail-item">
                                 <div class="detail-label">Tasa de Interés</div>
