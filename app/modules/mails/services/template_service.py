@@ -348,30 +348,24 @@ class TemplateService:
         approved_amount: Optional[float] = None,
     ) -> str:
         """Template para solicitud aprobada"""
-        monto_aprobado = self._format_currency(
-            approved_amount or request.requested_amount
-        )
-        fecha = self._format_date(datetime.now())
-        tasa = (
+        approved_amount = self._format_currency(approved_amount or 0)
+        date = self._format_date(datetime.now())
+        interest_rate = (
             f"{request.annual_interest_rate:.1f}%"
             if request.annual_interest_rate
             else "N/A"
         )
 
-        if (
-            request.requested_amount
-            and request.annual_interest_rate
-            and request.term_months
-        ):
+        if approved_amount and request.annual_interest_rate and request.term_months:
             monthly_rate = request.annual_interest_rate / 100 / 12
             monthly_payment = (
-                request.requested_amount
+                approved_amount
                 * monthly_rate
                 * (1 + monthly_rate) ** request.term_months
             ) / ((1 + monthly_rate) ** request.term_months - 1)
-            cuota_mensual = self._format_currency(monthly_payment)
+            monthly_payment = self._format_currency(monthly_payment)
         else:
-            cuota_mensual = "A calcular"
+            monthly_payment = "A calcular"
 
         return f"""
         <!DOCTYPE html>
@@ -409,15 +403,15 @@ class TemplateService:
                             </div>
                             <div class="detail-item">
                                 <div class="detail-label">Fecha de Aprobación</div>
-                                <div class="detail-value">{fecha}</div>
+                                <div class="detail-value">{date}</div>
                             </div>
                             <div class="detail-item">
                                 <div class="detail-label">Monto Aprobado</div>
-                                <div class="detail-value highlight">{monto_aprobado}</div>
+                                <div class="detail-value highlight">{approved_amount}</div>
                             </div>
                             <div class="detail-item">
                                 <div class="detail-label">Tasa de Interés</div>
-                                <div class="detail-value">{tasa}</div>
+                                <div class="detail-value">{interest_rate}</div>
                             </div>
                             <div class="detail-item">
                                 <div class="detail-label">Plazo</div>
@@ -425,7 +419,7 @@ class TemplateService:
                             </div>
                             <div class="detail-item">
                                 <div class="detail-label">Cuota Mensual</div>
-                                <div class="detail-value highlight">{cuota_mensual}</div>
+                                <div class="detail-value highlight">{monthly_payment}</div>
                             </div>
                         </div>
                     </div>

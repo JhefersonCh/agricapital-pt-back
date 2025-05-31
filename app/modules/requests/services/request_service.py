@@ -49,7 +49,7 @@ class RequestService:
         self,
         db: Session,
         mail_service: Optional[MailService] = None,
-        ws_send_notification: Optional[Callable] = None
+        ws_send_notification: Optional[Callable] = None,
     ):
         self.db = db
         self.request_related_data = RequestRelatedData(db)
@@ -106,21 +106,37 @@ class RequestService:
         )
 
         notificationId = notificationUser.id
-        notificationUserCompleted = self.notification_service.get_notification_by_id(notificationId)
+        notificationUserCompleted = self.notification_service.get_notification_by_id(
+            notificationId
+        )
 
-        if self.ws_send_notification and notificationUserCompleted and notificationUserCompleted.notification:
+        if (
+            self.ws_send_notification
+            and notificationUserCompleted
+            and notificationUserCompleted.notification
+        ):
             notification_message = {
                 "type": "new_notification",
                 "notification_id": str(notificationUserCompleted.id),
                 "title": notificationUserCompleted.notification.title,
                 "message": notificationUserCompleted.notification.message,
-                "read_at": notificationUserCompleted.read_at.isoformat() if notificationUserCompleted.read_at else None,
-                "created_at": notificationUserCompleted.created_at.isoformat() if notificationUserCompleted.created_at else None,
+                "read_at": (
+                    notificationUserCompleted.read_at.isoformat()
+                    if notificationUserCompleted.read_at
+                    else None
+                ),
+                "created_at": (
+                    notificationUserCompleted.created_at.isoformat()
+                    if notificationUserCompleted.created_at
+                    else None
+                ),
                 "user_id": str(notificationUserCompleted.user_id),
                 "request_id": str(db_request.id),
                 "status": "created",
             }
-            await self.ws_send_notification(str(request_create.client_id), notification_message)
+            await self.ws_send_notification(
+                str(request_create.client_id), notification_message
+            )
         if self.mail_service:
             await self.mail_service.send_email(
                 MessageSchema(
@@ -323,7 +339,6 @@ class RequestService:
 
         return RequestResponse.model_validate(db_request)
 
-
     def get_request_by_client_id(self, client_id: UUID) -> Optional[RequestResponse]:
 
         db_request = self.db.exec(
@@ -368,28 +383,46 @@ class RequestService:
             )
         )
         notificationId = notificationUser.id
-        notificationUserCompleted = self.notification_service.get_notification_by_id(notificationId)
+        notificationUserCompleted = self.notification_service.get_notification_by_id(
+            notificationId
+        )
 
-        if self.ws_send_notification and notificationUserCompleted and notificationUserCompleted.notification:
+        if (
+            self.ws_send_notification
+            and notificationUserCompleted
+            and notificationUserCompleted.notification
+        ):
             notification_message = {
                 "type": "new_notification",
                 "notification_id": str(notificationUserCompleted.id),
                 "title": notificationUserCompleted.notification.title,
                 "message": notificationUserCompleted.notification.message,
-                "read_at": notificationUserCompleted.read_at.isoformat() if notificationUserCompleted.read_at else None,
-                "created_at": notificationUserCompleted.created_at.isoformat() if notificationUserCompleted.created_at else None,
+                "read_at": (
+                    notificationUserCompleted.read_at.isoformat()
+                    if notificationUserCompleted.read_at
+                    else None
+                ),
+                "created_at": (
+                    notificationUserCompleted.created_at.isoformat()
+                    if notificationUserCompleted.created_at
+                    else None
+                ),
                 "user_id": str(notificationUserCompleted.user_id),
                 "request_id": str(db_request.id),
                 "status": "approved",
             }
-            await self.ws_send_notification(str(db_request.client_id), notification_message)
+            await self.ws_send_notification(
+                str(db_request.client_id), notification_message
+            )
 
         if self.mail_service:
             await self.mail_service.send_email(
                 MessageSchema(
                     subject="Solicitud Aprobada",
                     recipients=[db_request.client_profile.email],
-                    body=self.template_service.request_approved(db_request),
+                    body=self.template_service.request_approved(
+                        db_request, approved_amount=approved_amount
+                    ),
                     subtype="html",
                 )
             )
@@ -433,20 +466,36 @@ class RequestService:
         )
 
         notificationId = notificationUser.id
-        notificationUserCompleted = self.notification_service.get_notification_by_id(notificationId)
-        if self.ws_send_notification and notificationUserCompleted and notificationUserCompleted.notification:
+        notificationUserCompleted = self.notification_service.get_notification_by_id(
+            notificationId
+        )
+        if (
+            self.ws_send_notification
+            and notificationUserCompleted
+            and notificationUserCompleted.notification
+        ):
             notification_message = {
                 "type": "new_notification",
                 "notification_id": str(notificationUserCompleted.id),
                 "title": notificationUserCompleted.notification.title,
                 "message": notificationUserCompleted.notification.message,
-                "read_at": notificationUserCompleted.read_at.isoformat() if notificationUserCompleted.read_at else None,
-                "created_at": notificationUserCompleted.created_at.isoformat() if notificationUserCompleted.created_at else None,
+                "read_at": (
+                    notificationUserCompleted.read_at.isoformat()
+                    if notificationUserCompleted.read_at
+                    else None
+                ),
+                "created_at": (
+                    notificationUserCompleted.created_at.isoformat()
+                    if notificationUserCompleted.created_at
+                    else None
+                ),
                 "user_id": str(notificationUserCompleted.user_id),
                 "request_id": str(db_request.id),
                 "status": "rejected",
             }
-            await self.ws_send_notification(str(db_request.client_id), notification_message)
+            await self.ws_send_notification(
+                str(db_request.client_id), notification_message
+            )
 
         if self.mail_service:
             await self.mail_service.send_email(
