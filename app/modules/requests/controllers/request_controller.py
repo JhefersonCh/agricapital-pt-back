@@ -17,6 +17,7 @@ from app.modules.requests.services.request_service import RequestService
 from app.shared.dtos.pagination_dto import PaginatedRequestsResponse, PaginationMeta
 from app.shared.guards.jwtGuard import jwt_guard
 from fastapi import HTTPException, status
+from app.ws.websocket_manager import send_notification
 
 requestRouter = APIRouter(
     prefix="/requests",
@@ -49,7 +50,7 @@ async def create_request(
 ):
 
     try:
-        new_request, is_created = await RequestService(db, mail_service).create_request(
+        new_request, is_created = await RequestService(db, mail_service, ws_send_notification=send_notification).create_request(
             request
         )
         if is_created:
@@ -162,7 +163,7 @@ async def approve_request(
     user_id: UUID = Depends(jwt_guard),
     mail_service: MailService = Depends(get_mail_service),
 ):
-    updated_request = await RequestService(db, mail_service).approve_request(
+    updated_request = await RequestService(db, mail_service, ws_send_notification=send_notification).approve_request(
         id, user_id, body.approved_amount
     )
     return {"message": "Solicitud aprobada exitosamente", "data": updated_request}
@@ -176,7 +177,7 @@ async def reject_request(
     user_id: UUID = Depends(jwt_guard),
     mail_service: MailService = Depends(get_mail_service),
 ):
-    updated_request = await RequestService(db, mail_service).reject_request(
+    updated_request = await RequestService(db, mail_service, ws_send_notification=send_notification).reject_request(
         id, user_id, body.rejection_reason
     )
     return {"message": "Solicitud rechazada exitosamente", "data": updated_request}

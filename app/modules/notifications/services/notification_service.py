@@ -1,4 +1,5 @@
 from dataclasses import asdict
+from typing import Optional
 from uuid import UUID
 from sqlmodel import select, Session
 from app.modules.notifications.models.notification_model import (
@@ -61,8 +62,32 @@ class NotificationService:
         self.db.refresh(db_notification_user)
         return db_notification_user
 
-    def get_notification_by_id(self, notification_id: UUID) -> NotificationsUser:
-        notification = self.db.get(NotificationsUser, notification_id)
-        if not notification:
+    def get_notification_by_id(self, notification_id: UUID) -> Optional[NotificationUserInterface]:
+        statement = (
+            select(NotificationsUser, Notification)
+            .join(Notification, NotificationsUser.notification_id == Notification.id)
+            .where(NotificationsUser.id == notification_id)
+        )
+        
+        result = self.db.exec(statement).first()
+
+        if not result:
             return None
-        return notification
+
+        nu, n = result
+        
+        return NotificationUserInterface(
+            id=nu.id,
+            notification_id=nu.notification_id,
+            user_id=nu.user_id,
+            created_at=nu.created_at,
+            updated_at=nu.updated_at,
+            read_at=nu.read_at,
+            notification=NotificationInterface(
+                id=n.id,
+                title=n.title,
+                message=n.message,
+                created_at=n.created_at,
+                updated_at=n.updated_at,
+            ),
+        )

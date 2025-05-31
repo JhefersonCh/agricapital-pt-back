@@ -5,6 +5,7 @@ from app.modules.clients.controllers.client_controller import clientRouter
 from app.modules.notifications.controllers.notification_controller import (
     notificationRouter,
 )
+from app.ws.controllers.websocket_routes import router as websocketRouter
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -34,3 +35,4 @@ def index():
 app.include_router(requestRouter)
 app.include_router(clientRouter)
 app.include_router(notificationRouter)
+app.include_router(websocketRouter)
