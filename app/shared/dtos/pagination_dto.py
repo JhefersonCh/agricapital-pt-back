@@ -13,9 +13,10 @@ class PaginationMeta(BaseModel):
     has_next_page: bool = Field(..., description="Indica si hay una página siguiente.")
 
 
+# TODO: Add example to json_schema_extra
 class PaginatedRequestsResponse(BaseModel):
     model_config = ConfigDict(
-        json_schema_extra = {
+        json_schema_extra={
             "example": {
                 "data": [],
                 "pagination": {
