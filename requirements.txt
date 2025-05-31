@@ -49,6 +49,7 @@ PyRect==0.2.0
 PyScreeze==1.0.1
 pytest==8.3.5
 pytest-asyncio==1.0.0
+pytest-mock==3.14.1
 python-dotenv==1.1.0
 python-jose==3.5.0
 python-multipart==0.0.20

@@ -1,7 +1,7 @@
 from typing import Optional
 from uuid import UUID
 from datetime import date, datetime
-from pydantic import BaseModel, Field as PydanticField
+from pydantic import BaseModel, ConfigDict, Field as PydanticField
 
 
 class ClientProfileCreate(BaseModel):
@@ -106,6 +106,8 @@ class ClientProfileUpdate(BaseModel):
 
 
 class ClientProfileResponse(ClientProfileCreate):
+    model_config = ConfigDict(from_attributes=True)
+
     user_id: UUID = PydanticField(
         description="ID único del usuario asociado a este perfil de cliente."
     )
@@ -118,6 +120,3 @@ class ClientProfileResponse(ClientProfileCreate):
     email: Optional[str] = PydanticField(
         default=None, description="Correo electrónico del cliente."
     )
-
-    class Config:
-        from_attributes = True

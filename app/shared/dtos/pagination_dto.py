@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from typing import List, Any
 
 
@@ -14,10 +14,7 @@ class PaginationMeta(BaseModel):
 
 
 class PaginatedRequestsResponse(BaseModel):
-    data: List[Any]
-    pagination: PaginationMeta
-
-    class Config:
+    model_config = ConfigDict(
         json_schema_extra = {
             "example": {
                 "data": [],
@@ -31,3 +28,7 @@ class PaginatedRequestsResponse(BaseModel):
                 },
             }
         }
+    )
+
+    data: List[Any]
+    pagination: PaginationMeta

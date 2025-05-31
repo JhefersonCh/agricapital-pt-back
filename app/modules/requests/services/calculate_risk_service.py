@@ -15,7 +15,7 @@ class RiskLevel(str, Enum):
 
 class CreditRequest(BaseModel):
     date_of_birth: date
-    annual_income: float = Field(gt=0, description="Ingreso anual en COP")
+    annual_income: float = Field(gt=0, json_schema_extra={"description": "Ingreso anual en COP"})
     years_of_agricultural_experience: int = Field(ge=0, le=60)
     has_agricultural_insurance: bool
     internal_credit_history_score: int = Field(ge=0, le=1000)

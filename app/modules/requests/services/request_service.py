@@ -84,7 +84,8 @@ class RequestService:
         user_with_request = self.get_request_by_client_id(request_create.client_id)
 
         if user_with_request:
-            return self.update_request(user_with_request.id, request_create), False
+            updated_request = self.update_request(user_with_request.id, request_create)
+            return updated_request, False
 
         if not approved_status:
             raise ValueError(
@@ -322,16 +323,6 @@ class RequestService:
 
         return RequestResponse.model_validate(db_request)
 
-    def delete_request(self, request_id: UUID) -> bool:
-        db_request = self.db.get(Request, request_id)
-        if not db_request:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"Solicitud con ID '{request_id}' no encontrada para eliminar.",
-            )
-        self.db.delete(db_request)
-        self.db.commit()
-        return True
 
     def get_request_by_client_id(self, client_id: UUID) -> Optional[RequestResponse]:
 

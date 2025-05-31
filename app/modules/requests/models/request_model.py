@@ -21,6 +21,10 @@ class RequestInterface:
     risk_assessment_details: Optional[dict] = None
     purpose_description: Optional[str] = None
     applicant_contribution_amount: Optional[float] = None
+    number_of_dependents: Optional[int] = None
+    other_income_sources: Optional[str] = None
+    previous_defaults: Optional[int] = None
+    collateral_value: Optional[float] = None
     collateral_offered_description: Optional[str] = None
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
