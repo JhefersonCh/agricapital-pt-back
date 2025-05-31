@@ -44,7 +44,7 @@ class ClientProfileCreate(BaseModel):
         default=None,
         ge=0,
         le=1000,
-        description="Puntuación interna del hist    orial crediticio del cliente (0-1000).",
+        description="Puntuación interna del historial crediticio del cliente (0-1000).",
     )
     current_debt_to_income_ratio: Optional[float] = PydanticField(
         default=None,
@@ -53,6 +53,9 @@ class ClientProfileCreate(BaseModel):
     )
     farm_size_hectares: Optional[float] = PydanticField(
         default=None, ge=0, description="Tamaño de la finca del cliente en hectáreas."
+    )
+    email: Optional[str] = PydanticField(
+        default=None, description="Correo electrónico del cliente."
     )
 
 
