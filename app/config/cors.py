@@ -7,7 +7,11 @@ load_dotenv()
 
 
 def setup_cors(app: FastAPI):
-    origins = [os.getenv("FRONTEND_URL").rstrip("/")]
+    origins = []
+    if os.getenv("ENVIRONMENT") == "development":
+        origins.append("*")
+    else:
+        origins.append(os.getenv("FRONTEND_URL").rstrip("/"))
     methods = os.getenv("ALLOWED_METHODS", "GET,POST,PATCH,DELETE,OPTIONS").split(",")
     headers = os.getenv("ALLOWED_HEADERS", "Content-Type,Authorization").split(",")
 
