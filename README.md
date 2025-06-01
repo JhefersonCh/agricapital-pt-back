@@ -140,7 +140,65 @@ This platform is specifically tailored for the **Colombian agricultural lending 
 
 ---
 
+<details>
+<summary>Environments 🔒</summary>
+  
+```bash
+# JWT
+# JWT_SECRET_KEY: A highly secure, randomly generated secret key used for signing and verifying JWTs. Keep this absolutely confidential.
+JWT_SECRET_KEY="your_jwt_secret_key_here_please_generate_a_strong_one_for_production_like_this_long_string_of_random_characters"
+# JWT_ALGORITHM: The cryptographic algorithm used for signing the JWT. HS256 (HMAC SHA-256) is a common and secure choice.
+JWT_ALGORITHM="HS256"
+# JWT_AUDIENCE: Defines the intended recipient of the JWT. This helps prevent the token from being used by unintended parties.
+JWT_AUDIENCE="authenticated"
+
+# DB
+# DATABASE_URL: The complete connection string for your PostgreSQL database. This often includes all necessary details like user, password, host, port, and database name.
+DATABASE_URL="postgresql://user:password@host:port/database"
+# DATABASE_HOST: The hostname or IP address of your database server.
+DATABASE_HOST="your_database_host.example.com"
+# DATABASE_PORT: The port number on which the database server is listening.
+DATABASE_PORT="5432"
+# DATABASE_NAME: The name of the database to connect to.
+DATABASE_NAME="your_database_name"
+# DATABASE_USER: The username for accessing the database.
+DATABASE_USER="your_database_user"
+# DATABASE_PASSWORD: The password for the database user.
+DATABASE_PASSWORD="your_database_password"
+
+# MAIL
+# MAIL_HOST: The hostname of the SMTP (Simple Mail Transfer Protocol) server.
+MAIL_HOST="smtp.yourmailprovider.com"
+# MAIL_PORT: The port number for connecting to the SMTP server. 587 is commonly used for TLS/STARTTLS.
+MAIL_PORT="587"
+# MAIL_SECURE: A boolean indicating whether to use a secure connection (TLS/SSL). Set to true for secure connections.
+MAIL_SECURE="true"
+# MAIL_USER: The email address used to authenticate with the SMTP server.
+MAIL_USER="your_email@example.com"
+# MAIL_PASSWORD: The password or app-specific password for the email account used for sending. Be extremely cautious with this value.
+MAIL_PASSWORD="your_email_app_password"
+# MAIL_SENDER: The display name and email address that will appear as the sender of the emails.
+MAIL_SENDER="YourAppName<noreply@yourdomain.com>"
+
+# APP
+# ENVIRONMENT: Specifies the current operating environment of the application (e.g., development, production, testing). This can influence logging, error handling, and other behaviors.
+ENVIRONMENT="development"
+# FRONTEND_URL: The URL of the frontend application. Used for CORS settings or generating links back to the frontend.
+FRONTEND_URL="https://your-frontend-app.vercel.app"
+# BACKEND_URL: The base URL of the backend API. Useful for internal redirects or client-side configuration.
+BACKEND_URL="http://localhost:8000"
+# ALLOWED_METHODS: A comma-separated list of HTTP methods allowed for CORS (Cross-Origin Resource Sharing).
+ALLOWED_METHODS="GET,POST,PATCH,DELETE,OPTIONS,HEAD"
+# ALLOWED_HEADERS: A comma-separated list of HTTP headers allowed for CORS requests.
+ALLOWED_HEADERS="Content-Type,Authorization"
+```
+</details>
+
+---
+
 ## Useful Wiki Pages 📖
+
+---
 
 * [DOCUMENTATION](https://deepwiki.com/JhefersonCh/agricapital-pt-back)
 
