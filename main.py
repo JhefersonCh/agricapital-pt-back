@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from app.config.cors import setup_cors
+from app.config.security import SecurityHeadersMiddleware
 from app.modules.requests.controllers.request_controller import requestRouter
 from app.modules.clients.controllers.client_controller import clientRouter
 from app.modules.notifications.controllers.notification_controller import (
@@ -16,15 +17,8 @@ app = FastAPI(
     version="1.0.0",
 )
 
-origins = ["*"]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+setup_cors(app)
+app.add_middleware(SecurityHeadersMiddleware)
 
 
 @app.get("/")
