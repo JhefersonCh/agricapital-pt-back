@@ -1,4 +1,4 @@
-# AgriCapital API 🚀
+# AgriCapital API (Prueba técnica) 🚀
 
 The **AgriCapital API** is a FastAPI-based backend system specifically designed for managing agricultural credit in Colombia. 🇨🇴 It handles the full lifecycle of agricultural lending applications, from submission and risk assessment to approval and rejection workflows. 🚜
 
